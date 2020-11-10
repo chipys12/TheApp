@@ -1,7 +1,5 @@
 package sample;
 
-import javafx.scene.control.Label;
-
 public class Account {
         int balance;
         int firstBalance;
@@ -70,5 +68,9 @@ public class Account {
 
         public String getName() {
             return name;
+        }
+
+        public void createAcc(String newName, int stBalance, int dep, int with){
+            Account newAccount = new Account(newName, stBalance, dep, with);
         }
 }

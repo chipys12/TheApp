@@ -1,4 +1,4 @@
-module Sranda {
+module TheApp {
 
     requires javafx.fxml;
     requires javafx.controls;

@@ -18,7 +18,7 @@ public class Main extends Application {
     Stage window;
     Account mujUcet = new Account( "", 1000, 100, 100);
     TableView<Account> table;
-    FXMLLoader loader = new FXMLLoader(Main.class.getResource("MainWindowView.fxml"));
+    FXMLLoader fxmlLoader=new FXMLLoader (Main.class.getResource ("sample.fxml"));
 
     public static void main(String[] args) {
         launch(args);
@@ -83,6 +83,13 @@ public class Main extends Application {
         grid4.setBackground(new Background(new BackgroundFill(Color.LIGHTSKYBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
         Scene sceneWithdraw = new Scene(grid4, 600, 600);
 
+        GridPane gridRegistration = new GridPane();
+        gridRegistration.setPadding(new Insets(10, 10, 10, 10));
+        gridRegistration.setVgap(8);
+        gridRegistration.setHgap(10);
+        gridRegistration.setBackground(new Background(new BackgroundFill(Color.LIGHTSKYBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
+        Scene sceneRegistration = new Scene(gridRegistration, 600, 600);
+
         VBox vBox = new VBox();
         vBox.getChildren().addAll(table);
         Scene seznam = new Scene(vBox);
@@ -91,6 +98,11 @@ public class Main extends Application {
         GridPane.setConstraints(welcome, 0, 0);
         Button pokracovat = new Button("Pokračovat");
         GridPane.setConstraints(pokracovat, 1, 3);
+        Label regist = new Label("Pokud ještě nemáte účet, registrujte se skrze tlačísko registrovat.");
+        GridPane.setConstraints(regist, 0, 4);
+        Button registration = new Button("Registrovat");
+        GridPane.setConstraints(registration, 1, 4);
+        registration.setOnAction(e -> window.setScene(sceneRegistration));
         Label name = new Label("Přihlašovací jméno:");
         GridPane.setConstraints(name, 0, 1);
         TextField nameInput = new TextField();
@@ -112,7 +124,27 @@ public class Main extends Application {
             }
         });
         mujUcet.uvitani();
-        grid.getChildren().addAll(welcome, nameInput, passInput,pokracovat, pass, name);
+        grid.getChildren().addAll(welcome, nameInput, passInput,pokracovat, registration, pass, name, regist);
+
+        Label newName = new Label("Vaše přihlašovací jméno: ");
+        GridPane.setConstraints(newName, 0, 0);
+        TextField newName1 = new TextField();
+        newName1.setPromptText("Jméno");
+        GridPane.setConstraints(newName1, 1, 0);
+        Label newPass = new Label("Vaše přihlašovací heslo: ");
+        GridPane.setConstraints(newPass, 0, 1);
+        PasswordField newPass1 = new PasswordField();
+        newPass1.setPromptText("Heslo");
+        GridPane.setConstraints(newPass1, 1, 1);
+        Button registBtn = new Button("Registrovat");
+        GridPane.setConstraints(registBtn, 1, 3);
+        registBtn.setOnAction(e -> {
+            AlertBox.display("Vytvoření účtu", "Vytvoření účtu proběhlo úspěšně!");
+            window.setScene(sceneHomePage);
+        });
+
+        gridRegistration.getChildren().addAll(newName, newName1, newPass, newPass1, registBtn);
+
 
         Label menu = new Label("Zde v menu si můžete ověřit stav účtu, vložit nebo si vybrat peníze.");
         GridPane.setConstraints(menu, 0, 0);
