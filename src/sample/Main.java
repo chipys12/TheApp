@@ -14,11 +14,15 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import sample.AlertBox;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Main extends Application {
     Stage window;
-    Account mujUcet = new Account( "", 1000, 100, 100);
+    Account mujUcet = new Account( "", "Heslo123", 1000, 100, 100);
     TableView<Account> table;
     FXMLLoader fxmlLoader=new FXMLLoader (Main.class.getResource ("sample.fxml"));
+    List<Account> seznamUctu = new ArrayList<>();
 
     public static void main(String[] args) {
         launch(args);
@@ -28,25 +32,6 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         window = primaryStage;
         window.setTitle("BankingApp");
-
-        //name column
-        TableColumn<Account, String> nameColumn = new TableColumn<>("Name");
-        nameColumn.setMinWidth(200);
-        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-
-        /*first deposit
-        TableColumn<Account, int> firstDepositColumn = new TableColumn<>("first deposit");
-        firstDepositColumn.setMinWidth(200);
-        firstDepositColumn.setCellValueFactory(new PropertyValueFactory<>("firstBalance"));
-
-        //deposit
-        TableColumn<Account, String> depositColumn = new TableColumn<>("deposit");
-        depositColumn.setMinWidth(200);
-        depositColumn.setCellValueFactory(new PropertyValueFactory<>("deposit")); */
-
-        table = new TableView<>();
-        table.setItems(getAccount());
-        table.getColumns().addAll(nameColumn);
 
         GridPane grid = new GridPane();
         grid.setPadding(new Insets(10, 10, 10, 10));
@@ -140,6 +125,9 @@ public class Main extends Application {
         GridPane.setConstraints(registBtn, 1, 3);
         registBtn.setOnAction(e -> {
             AlertBox.display("Vytvoření účtu", "Vytvoření účtu proběhlo úspěšně!");
+            Account novejUcet = new Account(newName1.getText(), newPass1.getText(), 0, 0, 0);
+            seznamUctu.add(novejUcet);
+            System.out.println(seznamUctu);
             window.setScene(sceneHomePage);
         });
 
@@ -150,6 +138,9 @@ public class Main extends Application {
         GridPane.setConstraints(menu, 0, 0);
         Button checkBalance = new Button("Stav účtu");
         GridPane.setConstraints(checkBalance, 1, 1);
+        Button logout = new Button("Odhlásit se");
+        GridPane.setConstraints(logout, 0, 3);
+        logout.setOnAction(e -> window.setScene(sceneWelcome));
         Button deposit = new Button("Vložit peníze");
         GridPane.setConstraints(deposit, 1, 2);
         Button withdraw = new Button("Vybrat peníze");
@@ -168,7 +159,7 @@ public class Main extends Application {
         Button seznamUctu = new Button("Seznam uctu");
         GridPane.setConstraints(seznamUctu, 5, 5);
         seznamUctu.setOnAction(e -> window.setScene(seznam));
-        grid1.getChildren().addAll(menu, checkBalance, deposit, withdraw, ucet, seznamUctu);
+        grid1.getChildren().addAll(menu, checkBalance, deposit, withdraw, ucet, seznamUctu, logout);
 
         Label stavUctu = new Label("Stav vašeho účtu je " + mujUcet.balance + "Kč.");
         GridPane.setConstraints(stavUctu, 2, 2);
@@ -226,7 +217,7 @@ public class Main extends Application {
         GridPane.setConstraints(backToMenu3, 10, 10);
         backToMenu3.setOnAction(e -> window.setScene(sceneHomePage));
         grid4.getChildren().addAll(withdrawLabel, option1, option2, option3, backToMenu3);
-
+        
         window.setScene(sceneWelcome);
         window.show();
     }
@@ -241,13 +232,11 @@ public class Main extends Application {
             return false;
         }
     }
-    public ObservableList<Account> getAccount(){
-        ObservableList<Account> accounts = FXCollections.observableArrayList();
-        accounts.add(new Account("Honza", 1000, 100, 1000));
-        accounts.add(new Account("David", 5000, 300, 10));
-        accounts.add(new Account("Petr", 100, 200, 300));
-        accounts.add(new Account("Klára", 2000, 50, 50));
-        accounts.add(new Account("Retard", 5000, 10, 200));
-        return accounts;
+
+    @Override
+    public String toString() {
+        return "Main{" +
+                "seznamUctu=" + seznamUctu +
+                '}';
     }
 }

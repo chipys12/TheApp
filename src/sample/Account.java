@@ -1,17 +1,21 @@
 package sample;
 
+import java.util.ArrayList;
+
 public class Account {
         int balance;
         int firstBalance;
         int deposit;
         int withdraw;
         String name;
+        String pass;
 
-        public Account(String name, int firstBalance, int deposit, int withdraw){
+        public Account(String name, String pass, int firstBalance, int deposit, int withdraw){
             this.firstBalance = firstBalance;
             this.deposit = deposit;
             this.withdraw = withdraw;
-            this.name = "";
+            this.name = name;
+            this.pass = pass;
         }
         public void uvitani(){
             System.out.println("Vítejte " + name + " na vašem účtě. Můžete si zkontrolovat stav účtu, vybrat nebo vložit peníze.");
@@ -70,7 +74,4 @@ public class Account {
             return name;
         }
 
-        public void createAcc(String newName, int stBalance, int dep, int with){
-            Account newAccount = new Account(newName, stBalance, dep, with);
-        }
 }
